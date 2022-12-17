@@ -1,0 +1,77 @@
+# stub readme
+
+# in this model everything is a library or .o file
+# in this manner, every usage of "main" is a "test" executable
+# following this model a project in ought2make that will always
+# be distributed with a main(), such as a game or a web browser
+# would have its executable in the tests section
+
+# this generalization does away with this idea of single file programs
+# simplifies the automatic configuration process, allows programmers
+# to more easily build with multiple languages such as C and C++
+
+# all of the .o files, as is typical with "library" models such as
+# bignum and standard c library impls will be generated in src/
+
+# src/ will be where the programmer will build their project
+#  because librarification generally means that empirical tests
+# are multiple invocations of main() ran by a shell script and the output
+#n diffed and analyzed by a CI/CD system a programmer wishing to have 
+# a  single main() will build their final executable under tests/
+# following the library author's typical model of: webbrowser.c
+# main()
+#{
+#	webbrowser(); // where "webbrowser" is written as
+			// if it were main()
+#}
+# programmers authoring libraries will use multiple files
+# such as:mybignumtest.c
+# main()
+#{
+#	c =mybignum(a, b);
+#	mybignumprint(c);
+#
+
+# all headers will be under include/{libraryname}/myincludes.h
+# these headers will only be installed non the end system if
+# the end system target is a development system that needs the
+# project headers to be available as "dev" packages for future programmers
+# using their library -- otherwise libraryname.a will be installed into
+# /lib/{ibraryname}/
+
+
+# programmers making conventional executable will
+# and programmer writing libraries hence will all use the  same system
+
+# this therefore, and henceforth unifies all build mechanisms under
+# the paradigms of modern makefile and `make'. much of the process of
+# linking against libraries will be "hidden" under LDFLAGS which will
+# systemically modify the invocation of `cc' by `make' when the 
+# programmer wishes to build either library test executable
+# link against a library, or build a normal "game" type executable
+# thus including -lgame -L/lib/gamename/ in the invocation of `cc'
+# and all future build systems using ought2make will be simplified under
+# n the abstraction of the student understanding the compilation process
+# as an understanding of "makefile" and the, again, unification of `make'
+# and shell tests. 
+
+
+# we are operating under simplified paradigms of Linux using the build
+# system of GNU, we acknowledge that NetBSD makes significant usage of this
+# system and is highly adaptive to `gmake', we acknowledge that OpenBSD 
+# makes significant and similar usage of `gmake', we acknowledge that
+# FreeBSD differs and sets forth a paradigm similar to all  the BSDs
+# that gets away from `gmake' and each have their own `make' 
+# we hereby also acknowledge that POSIX `make' is dead and failed to
+# fit the needs of Linux and the BSDs. this is an historical analysis
+# of `make' and we set forth into ought2make with the  knowledge  that
+# this crude generalization will: 1. make cleaner build systems 2. 
+# get rid of the need for programmers to rely on more complex automake
+# 3. embrace the ways of mastering librarification, makefile authorship
+# and supply to the programmer of executable such as games the  knowledge
+# of the library linking process and the demystification of all  things
+# build system into a single and universally portable solution for  everything
+# under which all students can learn, all  library authors can focus their 
+# mastery, all game programmers can easily build c/c++ games and that
+# everything will be kept as clean as possible that grabbing files is
+# a good practice
