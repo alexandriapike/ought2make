@@ -64,7 +64,7 @@ then    stdout "src/internal.h already exists"
 else    stdout "src/internal.h created from .internal.h stubfile"
         mv .internal.h src/internal.h
         sed -i "s|OUGHT2MAKE|${libname}|g" src/internal.h
-	stdout "internal.h" > src/${libname}.c
+	stdout "#include \"internal.h\"" > src/${libname}.c
 fi
 
 
