@@ -36,7 +36,6 @@ do	case "$i" in
 		--prefix=*)
 			prefix=${i#*=}
 			;;
-
 		--libname=*)
 			libname=${i#*=}
 			;;
@@ -50,6 +49,23 @@ usefulmkdir lib
 usefulmkdir include/${libname}
 usefulmkdir tests
 usefulmkdir src
+
+if [ -f include/${libname}/${libname}.h ]
+then    stdout "include/${libname}/${libname}.h already exists"
+else    stdout "include/${libname}/${libname}.h created from stubfile.h"
+        mv .stubheader.h include/${libname}/${libname}.h
+        sed -i "s|OUGHT2MAKE_H|${libname}_H|g" include/${libname}/${libname}.h
+	stdout "#include <${libname}/${libname}.h>" > tests/${libname}.c
+fi
+
+
+if [ -f src/internal.h ]
+then    stdout "src/internal.h already exists"
+else    stdout "src/internal.h created from .internal.h stubfile"
+        mv .internal.h src/internal.h
+        sed -i "s|OUGHT2MAKE|${libname}|g" src/internal.h
+	stdout "internal.h" > src/${libname}.c
+fi
 
 
 
