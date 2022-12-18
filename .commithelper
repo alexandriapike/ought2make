@@ -1,0 +1,8 @@
+echo "# ${1}" > README
+rm -rf .git
+git init
+git add * .config
+git commit -m "initial check in of ${1} after generating the project base with ought2make"
+git branch -M main
+git remote add origin git@github.com:alexandriapike/${1}.git
+git push -u origin main
