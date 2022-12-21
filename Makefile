@@ -26,7 +26,11 @@ static: $(OBJECTS)
 create_test: $(TESTOBJECTS)
 
 clean:
-	$(RM) $(OBJECTS) $(TESTOBJECTS) $(STATICLIBRARY) config.mak 
+	$(RM) $(OBJECTS) $(TESTOBJECTS) $(STATICLIBRARY)
+
+cleanall:
+	$(MAKE) clean
+	$(RM) config.mak
 
 install:
 	mkdir -p $(DESTDIR)/$(prefix)/include $(DESTDIR)/$(prefix)/lib/

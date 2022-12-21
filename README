@@ -21,25 +21,58 @@ A basic executable file will be automatically generated as
 tests/new_project_name.c
 	This file will be set up to contain:
 		#define <new_project_name/new_project_name.h>
+		int main(void) { return 0;};
+
 A basic object file will be automatically generated as
 src/new_project_name.c
 	This file will not be an executable and will be
 	compiled automatically when you invoke `make'
 	into a .o object file
 
+
 game programmers:
 all source code goes into src/
 main() will need to be in tests/
+your game .c executable should look something like this:
+#include <mygame/mygame.h>
+
+int main(void)
+{
+	mygame();
+	return 0;
+}
+
 
 library authors:
 all code goes into src/
 all library tests go into tests/
+your library test executables should look something like this:
+
+#include <mylibrary/mylibrary.h>
+
+int main(void)
+{
+	mylib_function();
+        return 0;
+}
+
 
 Library authors and game programmers:
+	The file .config is library code that the configure
+	script needs so don't forget to upload it with
+	your project to revision control.
+
 	After you have added your code into src/ and tests/
 	run `make' again. It does not matter what the files
 	are named: all files in src/ become object code and
-	all files in tests/ become executable. 
+	all files in tests/ become executable. As long as
+	the files end in .c and are in these directories the
+	makefile will detect them with glob expansion. This
+	is the very core functionality that the autoconf
+	build system supplies to programmers. In this way,
+	the build system is simply a manifestation of Steven
+	Kleene's "Kleene closure" automata in the form of 
+	glob expansion.
 	
 	All object code from src/ is automatically compiled
 	and put into libnew_project_name.a. Library authors
@@ -56,6 +89,7 @@ Library authors and game programmers:
 	of their game in tests/ in the same way that library
 	authors have multiple executables in tests/ to
 	test their library.
+
 
 
 The process used by ought2make is one of creating opaque
