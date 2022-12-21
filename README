@@ -1,77 +1,106 @@
-# stub readme
+# a simple replacement for autoconf
 
-# in this model everything is a library or .o file
-# in this manner, every usage of "main" is a "test" executable
-# following this model a project in ought2make that will always
-# be distributed with a main(), such as a game or a web browser
-# would have its executable in the tests section
+# ./configure --libname=new_project_name && make
 
-# this generalization does away with this idea of single file programs
-# simplifies the automatic configuration process, allows programmers
-# to more easily build with multiple languages such as C and C++
-
-# all of the .o files, as is typical with "library" models such as
-# bignum and standard c library impls will be generated in src/
-
-# src/ will be where the programmer will build their project
-#  because librarification generally means that empirical tests
-# are multiple invocations of main() ran by a shell script and the output
-#n diffed and analyzed by a CI/CD system a programmer wishing to have 
-# a  single main() will build their final executable under tests/
-# following the library author's typical model of: webbrowser.c
-# main()
-#{
-#	webbrowser(); // where "webbrowser" is written as
-			// if it were main()
-#}
-# programmers authoring libraries will use multiple files
-# such as:mybignumtest.c
-# main()
-#{
-#	c =mybignum(a, b);
-#	mybignumprint(c);
-#
-
-# all headers will be under include/{libraryname}/myincludes.h
-# these headers will only be installed non the end system if
-# the end system target is a development system that needs the
-# project headers to be available as "dev" packages for future programmers
-# using their library -- otherwise libraryname.a will be installed into
-# /lib/{ibraryname}/
+# delete ought2make's .git directory
 
 
-# programmers making conventional executable will
-# and programmer writing libraries hence will all use the  same system
 
-# this therefore, and henceforth unifies all build mechanisms under
-# the paradigms of modern makefile and `make'. much of the process of
-# linking against libraries will be "hidden" under LDFLAGS which will
-# systemically modify the invocation of `cc' by `make' when the 
-# programmer wishes to build either library test executable
-# link against a library, or build a normal "game" type executable
-# thus including -lgame -L/lib/gamename/ in the invocation of `cc'
-# and all future build systems using ought2make will be simplified under
-# n the abstraction of the student understanding the compilation process
-# as an understanding of "makefile" and the, again, unification of `make'
-# and shell tests. 
+A header file will be automatically generated as
+include/new_project_name/new_project_name.h 
+	If your project is a library then this will be the public definitions
+	for developers linking against your library. it is only for
+	data type and function prototypes.
+
+An internal private header file will be automatically generated as
+src/internal.h
+	This file is where you should define your data types,
+	structures, functions and internal functions. 
+
+A basic executable file will be automatically generated as
+tests/new_project_name.c
+	This file will be set up to contain:
+		#define <new_project_name/new_project_name.h>
+A basic object file will be automatically generated as
+src/new_project_name.c
+	This file will not be an executable and will be
+	compiled automatically when you invoke `make'
+	into a .o object file
+
+game programmers:
+all source code goes into src/
+main() will need to be in tests/
+
+library authors:
+all code goes into src/
+all library tests go into tests/
+
+Library authors and game programmers:
+	After you have added your code into src/ and tests/
+	run `make' again. It does not matter what the files
+	are named: all files in src/ become object code and
+	all files in tests/ become executable. 
+	
+	All object code from src/ is automatically compiled
+	and put into libnew_project_name.a. Library authors
+	will instantly recognize this as the library for
+	their project. Game programmers will not install
+	this library or headers in include/ -- but instead
+	will install their main executable in tests/.
+
+	Library authors will not install the programs in
+	tests/ but instead will of course install 
+	libnew_project_name.a and the contents of include/
+
+	Game programmers may enjoy having multiple versions
+	of their game in tests/ in the same way that library
+	authors have multiple executables in tests/ to
+	test their library.
 
 
-# we are operating under simplified paradigms of Linux using the build
-# system of GNU, we acknowledge that NetBSD makes significant usage of this
-# system and is highly adaptive to `gmake', we acknowledge that OpenBSD 
-# makes significant and similar usage of `gmake', we acknowledge that
-# FreeBSD differs and sets forth a paradigm similar to all  the BSDs
-# that gets away from `gmake' and each have their own `make' 
-# we hereby also acknowledge that POSIX `make' is dead and failed to
-# fit the needs of Linux and the BSDs. this is an historical analysis
-# of `make' and we set forth into ought2make with the  knowledge  that
-# this crude generalization will: 1. make cleaner build systems 2. 
-# get rid of the need for programmers to rely on more complex automake
-# 3. embrace the ways of mastering librarification, makefile authorship
-# and supply to the programmer of executable such as games the  knowledge
-# of the library linking process and the demystification of all  things
-# build system into a single and universally portable solution for  everything
-# under which all students can learn, all  library authors can focus their 
-# mastery, all game programmers can easily build c/c++ games and that
-# everything will be kept as clean as possible that grabbing files is
-# a good practice
+The process used by ought2make is one of creating opaque
+private structures or objects. This is a sophisticated 
+method and is used by libraries such as GMP, OpenSSL,
+Xlib and ncurses. It is the model that the standard C
+library uses, and for example, is why a programmer
+can not access the structure members of the FILE
+data type. If you want to allow a programmer using
+your library or in this abstracted manner, the library
+of your executable game -- allow them to access the 
+opaque objects using functions. For instance
+
+struct opaque_object {
+	int dogs;
+	int cats;
+	int rainclouds;
+}
+
+add_more_dogs(opaque_object *a, int number)
+{
+	a->dogs += number;
+}
+
+Discussion:
+
+Object opacity is almost always a best practice method. The
+opaque objects used by early C programmers was adopted into
+C++ and became the concept of public and private classes.
+
+Object opacity allows the programs that access a library
+to continue to use the same code even when the internal
+workings of the library may have changed greatly.
+
+It is possible to use the makefile and configure script
+of ought2make in many ways. However, if a library or
+game programmer follows the methods outlined by ought2make
+they can begin programming and scripting automated tests
+very quickly.
+
+Much of the complicated process of building libraries is
+abstracted under LDFLAGS in ought2make's makefile. It is my
+hope that game programmers and library authors take the project
+apart and explore learning the makefile programming language.
+
+Good luck and have fun!
+
+Alexa

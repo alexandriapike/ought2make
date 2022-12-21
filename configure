@@ -56,6 +56,7 @@ else    stdout "include/${libname}/${libname}.h created from stubfile.h"
         mv .stubheader.h include/${libname}/${libname}.h
         sed -i "s|OUGHT2MAKE_H|${libname}_H|g" include/${libname}/${libname}.h
 	stdout "#include <${libname}/${libname}.h>" > tests/${libname}.c
+	stdout "int main(void) {return 0};" >> tests/${libname}.c
 fi
 
 
